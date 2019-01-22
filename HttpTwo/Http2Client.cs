@@ -16,12 +16,12 @@ namespace HttpTwo
     {
         readonly Http2Connection connection;
 
-        public Http2Client (Uri uri, X509CertificateCollection certificates = null, IStreamManager streamManager = null, IFlowControlManager flowControlManager = null)
+        public Http2Client (Uri uri, X509Certificate2Collection certificates = null, IStreamManager streamManager = null, IFlowControlManager flowControlManager = null)
             : this (new Http2ConnectionSettings (uri, certificates), streamManager, flowControlManager)
         {
         }
 
-        public Http2Client (string url, X509CertificateCollection certificates = null, IStreamManager streamManager = null, IFlowControlManager flowControlManager = null)
+        public Http2Client (string url, X509Certificate2Collection certificates = null, IStreamManager streamManager = null, IFlowControlManager flowControlManager = null)
             : this (new Http2ConnectionSettings (url, certificates), streamManager, flowControlManager)
         {
         }

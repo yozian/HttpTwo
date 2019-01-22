@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
-    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+    <TargetLatestRuntimePatch>false</TargetLatestRuntimePatch>
+    <RuntimeFrameworkVersion>2.1.5</RuntimeFrameworkVersion>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <AssemblyName>HttpTwo.HPack</AssemblyName>
   </PropertyGroup>

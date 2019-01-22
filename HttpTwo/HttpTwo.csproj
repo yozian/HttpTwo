@@ -4,7 +4,8 @@
     <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
     <AssemblyName>HttpTwo</AssemblyName>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+    <TargetLatestRuntimePatch>false</TargetLatestRuntimePatch>
+    <RuntimeFrameworkVersion>2.1.5</RuntimeFrameworkVersion>
   </PropertyGroup>
 
   <PropertyGroup>
