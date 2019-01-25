@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HttpTwo.Internal
@@ -63,10 +64,14 @@ namespace HttpTwo.Internal
         {
             var headers = new NameValueCollection ();
 
+            var text = string.Join(",", data.Select(x => x.ToString()));
+            var plainText = System.Text.Encoding.ASCII.GetString(data);
+
+            Console.WriteLine(text);
+
             // Decode Header Block Fragments
             var hpackDecoder = new HPack.Decoder (maxHeaderSize, maxHeaderTableSize);
             using(var binReader = new BinaryReader (new MemoryStream (data))) {
-
                 hpackDecoder.Decode(binReader, (name, value, sensitive) =>
                     headers.Add (
                         System.Text.Encoding.ASCII.GetString (name),

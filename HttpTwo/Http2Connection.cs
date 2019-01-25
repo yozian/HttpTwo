@@ -39,7 +39,7 @@ namespace HttpTwo
         public bool UseTls { get; private set; }
         public X509Certificate2Collection Certificates { get; private set; }
 
-        public TimeSpan ConnectionTimeout { get; set; } = TimeSpan.FromSeconds(60);
+        public TimeSpan ConnectionTimeout { get; set; } = TimeSpan.FromSeconds(30);
         public bool DisablePushPromise { get; set; } = false;
     }
 
@@ -97,9 +97,12 @@ namespace HttpTwo
                 sslStream = new SslStream(tcp.GetStream(), false,
                     (sender, certificate, chain, sslPolicyErrors) =>
                     {
-                        Console.WriteLine($"[sslPolicyErrors]:{sslPolicyErrors}");
+                        Debug.WriteLine($"[sslPolicyErrors]:{sslPolicyErrors}");
+                        Debug.WriteLine($"Issuer:{certificate.Issuer}, \n Subject:{certificate.Subject}");
                         return true;
                     });
+
+
 
 #if NETCOREAPP2_1
                 // .NET Core 2.1 introduces SslClientAuthenticationOptions
@@ -109,7 +112,7 @@ namespace HttpTwo
                 var authOptions = new SslClientAuthenticationOptions
                 {
                     ApplicationProtocols = new List<SslApplicationProtocol> { SslApplicationProtocol.Http2 }, // ALPN h2
-                    EnabledSslProtocols = SslProtocols.Tls12,
+                    EnabledSslProtocols = SslProtocols.None | SslProtocols.Tls12,
                     TargetHost = ConnectionSettings.Host,
                     ClientCertificates = ConnectionSettings.Certificates ?? new X509Certificate2Collection()
                 };
@@ -128,11 +131,15 @@ namespace HttpTwo
 #endif
 
                 clientStream = sslStream;
+
+                Debug.WriteLine($"SslProtocol: {sslStream.SslProtocol}");
+
             }
             else
             {
                 clientStream = tcp.GetStream();
             }
+
 
             // Ensure we have a size for the stream '0'
             flowControlManager.GetWindowSize(0);
@@ -206,15 +213,21 @@ namespace HttpTwo
 
         bool IsConnected()
         {
+
             if (tcp == null || clientStream == null || tcp.Client == null)
                 return false;
 
             if (!tcp.Connected || !tcp.Client.Connected)
                 return false;
 
-            if (!tcp.Client.Poll(1000, SelectMode.SelectRead)
-                || !tcp.Client.Poll(1000, SelectMode.SelectWrite))
+            var readAvailable = tcp.Client.Poll(01, SelectMode.SelectRead);
+            var writeAvailable = tcp.Client.Poll(01, SelectMode.SelectWrite);
+
+
+            if (!readAvailable && !writeAvailable)
+            {
                 return false;
+            }
 
             return true;
         }

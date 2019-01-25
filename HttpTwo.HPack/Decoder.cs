@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2015 Ringo Leese
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -468,7 +468,7 @@ namespace HttpTwo.HPack
                 HeaderField headerField = this.dynamicTable.GetEntry(index - StaticTable.Length);
                 name = headerField.Name;
             } else {
-                throw new IOException("illegal index value (" + index + ")");
+               throw new IOException("illegal index value (" + index + ")");
             }
         }
 

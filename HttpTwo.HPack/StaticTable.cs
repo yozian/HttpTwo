@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2015 Ringo Leese
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -89,7 +89,8 @@ namespace HttpTwo.HPack
             /* 58 */new HeaderField("user-agent", String.Empty),
             /* 59 */new HeaderField("vary", String.Empty),
             /* 60 */new HeaderField("via", String.Empty),
-            /* 61 */new HeaderField("www-authenticate", String.Empty)
+            /* 61 */new HeaderField("www-authenticate", String.Empty),
+            /* 62 */new HeaderField("apns-id", String.Empty)
         };
 
         private static Dictionary<string, int> STATIC_INDEX_BY_NAME = CreateMap();
