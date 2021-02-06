@@ -468,7 +468,12 @@ namespace HttpTwo.HPack
                 HeaderField headerField = this.dynamicTable.GetEntry(index - StaticTable.Length);
                 name = headerField.Name;
             } else {
-               throw new IOException("illegal index value (" + index + ")");
+                // force assing to 62 for undefined
+                index = 62;
+                HeaderField headerField = this.dynamicTable.GetEntry(index - StaticTable.Length);
+                name = headerField.Name;
+
+                // throw new IOException("illegal index value (" + index + ")");
             }
         }
 

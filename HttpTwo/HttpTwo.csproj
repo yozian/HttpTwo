@@ -20,8 +20,4 @@
     <PackageIconUrl>https://raw.githubusercontent.com/redth/HttpTwo/master/HttpTwo-Icon.png</PackageIconUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/redth/HttpTwo/master/LICENSE.md</PackageLicenseUrl>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\HttpTwo.HPack\HttpTwo.HPack.csproj" />
-  </ItemGroup>
 </Project>

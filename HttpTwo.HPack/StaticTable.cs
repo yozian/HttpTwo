@@ -90,7 +90,7 @@ namespace HttpTwo.HPack
             /* 59 */new HeaderField("vary", String.Empty),
             /* 60 */new HeaderField("via", String.Empty),
             /* 61 */new HeaderField("www-authenticate", String.Empty),
-            /* 62 */new HeaderField("apns-id", String.Empty)
+            /* 62 */new HeaderField("undefined", String.Empty)
         };
 
         private static Dictionary<string, int> STATIC_INDEX_BY_NAME = CreateMap();

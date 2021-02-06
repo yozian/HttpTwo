@@ -16,17 +16,17 @@ namespace HttpTwo
 {
     public class Http2ConnectionSettings
     {
-        public Http2ConnectionSettings(string url, X509Certificate2Collection certificates = null)
+        public Http2ConnectionSettings(string url, X509CertificateCollection certificates = null)
             : this(new Uri(url), certificates)
         {
         }
 
-        public Http2ConnectionSettings(Uri uri, X509Certificate2Collection certificates = null)
+        public Http2ConnectionSettings(Uri uri, X509CertificateCollection certificates = null)
             : this(uri.Host, (uint)uri.Port, uri.Scheme == Uri.UriSchemeHttps, certificates)
         {
         }
 
-        public Http2ConnectionSettings(string host, uint port = 80, bool useTls = false, X509Certificate2Collection certificates = null)
+        public Http2ConnectionSettings(string host, uint port = 80, bool useTls = false, X509CertificateCollection certificates = null)
         {
             Host = host;
             Port = port;
@@ -37,7 +37,7 @@ namespace HttpTwo
         public string Host { get; private set; }
         public uint Port { get; private set; }
         public bool UseTls { get; private set; }
-        public X509Certificate2Collection Certificates { get; private set; }
+        public X509CertificateCollection Certificates { get; private set; }
 
         public TimeSpan ConnectionTimeout { get; set; } = TimeSpan.FromSeconds(30);
         public bool DisablePushPromise { get; set; } = false;
@@ -112,9 +112,9 @@ namespace HttpTwo
                 var authOptions = new SslClientAuthenticationOptions
                 {
                     ApplicationProtocols = new List<SslApplicationProtocol> { SslApplicationProtocol.Http2 }, // ALPN h2
-                    EnabledSslProtocols = SslProtocols.None | SslProtocols.Tls12,
+                    EnabledSslProtocols = SslProtocols.Tls12 | SslProtocols.Tls11 | SslProtocols.Tls | SslProtocols.Ssl3,
                     TargetHost = ConnectionSettings.Host,
-                    ClientCertificates = ConnectionSettings.Certificates ?? new X509Certificate2Collection()
+                    ClientCertificates = ConnectionSettings.Certificates ?? new X509CertificateCollection()
                 };
 
                 await sslStream.AuthenticateAsClientAsync(
@@ -220,8 +220,8 @@ namespace HttpTwo
             if (!tcp.Connected || !tcp.Client.Connected)
                 return false;
 
-            var readAvailable = tcp.Client.Poll(01, SelectMode.SelectRead);
-            var writeAvailable = tcp.Client.Poll(01, SelectMode.SelectWrite);
+            var readAvailable = tcp.Client.Poll(1000, SelectMode.SelectRead);
+            var writeAvailable = tcp.Client.Poll(1000, SelectMode.SelectWrite);
 
 
             if (!readAvailable && !writeAvailable)
